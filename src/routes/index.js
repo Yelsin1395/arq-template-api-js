@@ -4,30 +4,58 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import compression from 'compression';
 import 'express-async-error';
-import { errorMiddleware, notFoundMiddleware } from '../middlewares/exception.middleware';
+import { notFoundMiddleware } from '../middlewares/notFound.middleware';
+import { errorMiddleware } from '../middlewares/exception.middleware';
 
-export default function ({ homeRoutes }) {
+export default function ({ homeRoutes, catalogViewRoutes, catalogRoutes }) {
   const router = express.Router();
   const apiRoutes = express.Router();
+  const htmlViewRoutes = express.Router(); // ✅ Router separado SIN helmet
 
-  //middleware default
-  apiRoutes
-    .use(express.json())
-    .use(express.urlencoded({ extended: false }))
-    .use(cors())
-    .use(helmet())
-    .use(compression())
-    .use(morgan('dev'));
+  // Middlewares base (sin helmet)
+  const commonMiddlewares = [
+    express.json(),
+    express.urlencoded({ extended: false }),
+    cors(),
+    compression(),
+    morgan('dev'),
+  ];
 
-  // prefix route
-  router.use('', apiRoutes);
+  // Helmet SOLO para el API
+  const helmetConfig = helmet({
+    contentSecurityPolicy: {
+      directives: {
+        'default-src': ["'self'"],
+        'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'cdn.jsdelivr.net'],
+        'style-src': ["'self'", "'unsafe-inline'", 'cdn.jsdelivr.net', 'fonts.googleapis.com'],
+        'font-src': ["'self'", 'fonts.gstatic.com'],
+        'img-src': ["'self'", 'data:', 'res.cloudinary.com'],
+        'connect-src': ["'self'"],
+      },
+    },
+  });
 
-  //middleware setting
-  router.use(errorMiddleware);
-  router.use(notFoundMiddleware);
+  // ✅ htmlViewRoutes: SIN helmet, solo middlewares básicos
+  htmlViewRoutes.use(commonMiddlewares);
 
-  // functions
+  // ✅ apiRoutes: CON helmet
+  apiRoutes.use(commonMiddlewares);
+  apiRoutes.use(helmetConfig);
+
+  // Rutas HTML puras (sin CSP)
+  htmlViewRoutes.use('/catalog', catalogViewRoutes); // solo para view-temp
+
+  // Rutas API protegidas
   apiRoutes.use('/', homeRoutes);
+  apiRoutes.use('/catalog', catalogRoutes);
+
+  // Montar ambos en el router principal
+  router.use('', htmlViewRoutes); // primero el HTML view
+  router.use('', apiRoutes);      // luego el API con helmet
+
+  // Error handling
+  router.use(notFoundMiddleware);
+  router.use(errorMiddleware);
 
   return router;
 }

@@ -14,7 +14,12 @@ container.register({
   routes: asFunction(routes).singleton(),
 });
 
-container.loadModules(['services/**/*.service.js', 'controllers/**/*.controller.js', 'routes/**/*.routes.js'], {
+container.loadModules([['repositories/models/**/*.model.js', { register: asValue }]], {
+  cwd: `${__dirname}/..`,
+  formatName: 'camelCase',
+});
+
+container.loadModules(['repositories/**/*.repository.js', 'services/**/*.service.js', 'controllers/**/*.controller.js', 'routes/**/*.routes.js'], {
   cwd: `${__dirname}/..`,
   formatName: 'camelCase',
   resolverOptions: {

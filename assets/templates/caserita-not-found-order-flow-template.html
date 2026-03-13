@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="es" data-theme="mylight">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CASERITA</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.1/dist/full.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+      [data-theme='mylight'] {
+        --color-base-100: oklch(98% 0.003 247.858);
+        --color-base-200: oklch(96% 0.007 247.896);
+        --color-base-300: oklch(92% 0.013 255.508);
+        --color-base-content: oklch(20% 0.042 265.755);
+        --color-primary: oklch(76% 0.188 70.08);
+        --color-primary-content: oklch(98% 0.022 95.277);
+        --color-secondary: oklch(71% 0.143 215.221);
+        --color-secondary-content: oklch(98% 0.019 200.873);
+        --color-neutral: oklch(12% 0.042 264.695);
+        --color-neutral-content: oklch(98% 0.003 247.858);
+        --rounded-box: 2rem;
+        --rounded-btn: 1rem;
+      }
+      body {
+        font-family: 'DM Sans', sans-serif;
+        background: oklch(96% 0.007 247.896);
+      }
+      .brand {
+        font-family: 'Sora', sans-serif;
+      }
+
+      .app-header {
+        background: white;
+        border-bottom: 1px solid oklch(92% 0.013 255.508);
+        position: sticky;
+        top: 0;
+        z-index: 40;
+      }
+
+      .sec-bar {
+        height: 3px;
+        width: 44px;
+        border-radius: 2px;
+        background: oklch(76% 0.188 70.08);
+        margin-top: 4px;
+      }
+
+      /* ── Ilustración animada ── */
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .anim-float {
+        animation: float 3.6s ease-in-out infinite;
+      }
+      .anim-fade-1 {
+        animation: fadeUp 0.55s ease both;
+        animation-delay: 0.05s;
+      }
+      .anim-fade-2 {
+        animation: fadeUp 0.55s ease both;
+        animation-delay: 0.18s;
+      }
+      .anim-fade-3 {
+        animation: fadeUp 0.55s ease both;
+        animation-delay: 0.3s;
+      }
+      .anim-fade-4 {
+        animation: fadeUp 0.55s ease both;
+        animation-delay: 0.42s;
+      }
+
+      /* ── Steps ── */
+      .step-pill {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        background: white;
+        border-radius: 1.25rem;
+        padding: 14px 16px;
+        box-shadow: 0 1px 8px oklch(20% 0.042 265.755 / 0.055);
+        border: 1.5px solid oklch(92% 0.013 255.508);
+      }
+      .step-num {
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: oklch(76% 0.188 70.08);
+        color: white;
+        font-family: 'Sora', sans-serif;
+        font-weight: 800;
+        font-size: 0.82rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* ── CTA button ── */
+      .cta-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        justify-content: center;
+        border-radius: 999px;
+        background: oklch(76% 0.188 70.08);
+        color: white;
+        border: none;
+        padding: 13px 24px;
+        font-family: 'Sora', sans-serif;
+        font-weight: 800;
+        font-size: 0.92rem;
+        cursor: pointer;
+        box-shadow: 0 4px 16px oklch(76% 0.188 70.08 / 0.32);
+        text-decoration: none;
+        transition: opacity 0.17s;
+      }
+      .cta-btn:hover {
+        opacity: 0.88;
+      }
+
+      /* ── Search bar ── */
+      .search-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: white;
+        border: 1.5px solid oklch(92% 0.013 255.508);
+        border-radius: 999px;
+        padding: 8px 14px;
+        width: 100%;
+        box-shadow: 0 1px 6px oklch(20% 0.042 265.755 / 0.05);
+      }
+      .search-wrap input {
+        border: none;
+        outline: none;
+        background: transparent;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.88rem;
+        color: oklch(20% 0.042 265.755);
+        flex: 1;
+      }
+      .search-wrap input::placeholder {
+        color: oklch(72% 0.02 265.755);
+      }
+
+      /* Divider label */
+      .divider-lbl {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: 'Sora', sans-serif;
+        font-weight: 700;
+        font-size: 0.72rem;
+        color: oklch(72% 0.02 265.755);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .divider-lbl::before,
+      .divider-lbl::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: oklch(92% 0.013 255.508);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- App Header -->
+    <header class="app-header px-4 py-3">
+      <div class="max-w-5xl mx-auto flex items-center gap-4">
+        <span class="brand font-black text-lg" style="color: oklch(20% 0.042 265.755); flex-shrink: 0"> CASERITA </span>
+        <div class="flex gap-2 overflow-x-auto pb-0.5" id="store-tabs" style="scrollbar-width: none; -webkit-overflow-scrolling: touch"></div>
+      </div>
+    </header>
+
+    <!-- main -->
+    <main class="max-w-5xl mx-auto px-4 py-14 flex items-center justify-center" style="min-height: 70vh">
+      <div class="flex flex-col items-center gap-7" style="max-width: 440px; width: 100%">
+        <!-- Ilustración flotante -->
+        <div class="anim-float anim-fade-1 flex flex-col items-center" style="gap: 0">
+          <!-- SVG catálogo roto -->
+          <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Sombra suave -->
+            <ellipse cx="64" cy="118" rx="34" ry="6" fill="oklch(20% 0.042 265.755 / 0.07)" />
+            <!-- Catálogo base -->
+            <rect x="22" y="16" width="84" height="98" rx="10" fill="white" stroke="oklch(92% 0.013 255.508)" stroke-width="2" />
+            <!-- Líneas de contenido (simulan productos) -->
+            <rect x="34" y="32" width="28" height="28" rx="6" fill="oklch(96% 0.007 247.896)" stroke="oklch(92% 0.013 255.508)" stroke-width="1.5" />
+            <rect x="34" y="66" width="52" height="7" rx="3.5" fill="oklch(92% 0.013 255.508)" />
+            <rect x="34" y="78" width="38" height="6" rx="3" fill="oklch(94% 0.01 255.508)" />
+            <rect x="34" y="89" width="24" height="8" rx="4" fill="oklch(76% 0.188 70.08 / 0.18)" />
+            <!-- Segundo "card" esquina -->
+            <rect x="68" y="32" width="28" height="28" rx="6" fill="oklch(96% 0.007 247.896)" stroke="oklch(92% 0.013 255.508)" stroke-width="1.5" />
+            <!-- Icono lupa con X encima -->
+            <circle cx="88" cy="28" r="18" fill="oklch(96% 0.007 247.896)" stroke="oklch(92% 0.013 255.508)" stroke-width="2" />
+            <circle cx="86" cy="26" r="8" stroke="oklch(72% 0.02 265.755)" stroke-width="2.2" fill="none" />
+            <line x1="92" y1="32" x2="97" y2="37" stroke="oklch(72% 0.02 265.755)" stroke-width="2.5" stroke-linecap="round" />
+            <!-- X roja -->
+            <line x1="82" y1="22" x2="90" y2="30" stroke="oklch(65% 0.22 25)" stroke-width="2.2" stroke-linecap="round" />
+            <line x1="90" y1="22" x2="82" y2="30" stroke="oklch(65% 0.22 25)" stroke-width="2.2" stroke-linecap="round" />
+          </svg>
+        </div>
+
+        <!-- Título + bajada -->
+        <div class="anim-fade-2 flex flex-col items-center text-center gap-2">
+          <h1 class="brand font-black" style="font-size: 1.65rem; color: oklch(20% 0.042 265.755); letter-spacing: -0.03em; line-height: 1.2">
+            Catálogo no encontrado
+          </h1>
+          <div class="sec-bar" style="margin: 4px auto 0"></div>
+          <p style="color: oklch(58% 0.02 265.755); font-size: 0.9rem; line-height: 1.65; margin-top: 8px; max-width: 360px">
+            El catálogo que buscas no existe o el enlace ha expirado. Puede que haya sido eliminado o que la URL esté incompleta.
+          </p>
+        </div>
+
+        <!-- Divider -->
+        <div class="anim-fade-3 divider-lbl" style="width: 100%">o sigue estos pasos</div>
+
+        <!-- Pasos de ayuda -->
+        <div class="anim-fade-3 flex flex-col gap-3" style="width: 100%">
+          <div class="step-pill">
+            <div class="step-num">1</div>
+            <div>
+              <p class="brand font-700" style="font-size: 0.84rem; color: oklch(25% 0.042 265.755); font-weight: 700; margin-bottom: 2px">Verifica el enlace</p>
+              <p style="font-size: 0.78rem; color: oklch(58% 0.02 265.755); line-height: 1.5">
+                Asegúrate de haber copiado la URL completa. Los catálogos tienen IDs únicos en el enlace.
+              </p>
+            </div>
+          </div>
+          <div class="step-pill">
+            <div class="step-num">2</div>
+            <div>
+              <p class="brand font-700" style="font-size: 0.84rem; color: oklch(25% 0.042 265.755); font-weight: 700; margin-bottom: 2px">Solicita uno nuevo</p>
+              <p style="font-size: 0.78rem; color: oklch(58% 0.02 265.755); line-height: 1.5">
+                Ingresa al chat de <b>caserita</b> dando click en el boton <b>"Realizar nueva consulta"</b> y te generamos un catálogo actualizado en segundos.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA principal -->
+        <div class="anim-fade-4" style="width: 100%; display: flex; flex-direction: column; gap: 12px">
+          <a href="https://wa.me/51999888777" target="_blank" rel="noopener noreferrer" class="cta-btn">
+            <span style="font-size: 1rem">💬</span>
+            Realizar nueva consulta
+          </a>
+
+          <p style="text-align: center; color: oklch(68% 0.02 265.755); font-size: 0.78rem">
+            ¿Preguntas? Escríbenos a
+            <a href="mailto:hola@caserita.pe" style="color: oklch(76% 0.188 70.08); font-weight: 600; text-decoration: none">hola@caserita.pe</a>
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: white; border-top: 1px solid oklch(92% 0.013 255.508); margin-top: 3rem">
+      <!-- Main footer content -->
+      <div class="max-w-5xl mx-auto px-4 py-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+          <!-- LEFT: Contacto -->
+          <div class="flex flex-col gap-5">
+            <div>
+              <p class="brand font-black text-xs uppercase tracking-widest mb-4" style="color: oklch(76% 0.188 70.08); letter-spacing: 0.12em">Contacto</p>
+              <div class="sec-bar mb-5"></div>
+            </div>
+
+            <div class="flex flex-col gap-4">
+              <div class="flex items-start gap-3">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background: oklch(96% 0.007 247.896)">📍</span>
+                <div>
+                  <p class="brand font-bold text-xs uppercase tracking-wide mb-0.5" style="color: oklch(65% 0.02 265.755)">Dirección</p>
+                  <p class="text-sm" style="color: oklch(35% 0.042 265.755)">Av. Ejemplo 1234, Lima, Perú</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background: oklch(96% 0.007 247.896)">📞</span>
+                <div>
+                  <p class="brand font-bold text-xs uppercase tracking-wide mb-0.5" style="color: oklch(65% 0.02 265.755)">Teléfono</p>
+                  <p class="text-sm" style="color: oklch(35% 0.042 265.755)">+51 999 888 777</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background: oklch(96% 0.007 247.896)">✉️</span>
+                <div>
+                  <p class="brand font-bold text-xs uppercase tracking-wide mb-0.5" style="color: oklch(65% 0.02 265.755)">Correo</p>
+                  <p class="text-sm" style="color: oklch(35% 0.042 265.755)">hola@caserita.pe</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Brand + descripción + redes -->
+          <div class="flex flex-col gap-5">
+            <div>
+              <h2 class="brand font-black text-3xl" style="color: oklch(20% 0.042 265.755); letter-spacing: -0.03em">CASERITA</h2>
+              <div class="sec-bar mt-2 mb-4"></div>
+              <p class="text-sm leading-relaxed" style="color: oklch(55% 0.02 265.755); max-width: 320px">
+                Plataforma de pedidos diseñada para brindarte la mejor experiencia. Descubre tiendas, elige tus favoritos y realiza tus pedidos de forma rápida,
+                interactiva e inteligente — con IA integrada en cada paso.
+              </p>
+            </div>
+
+            <!-- Redes sociales -->
+            <div class="flex items-center gap-3 mt-1">
+              <!-- Facebook -->
+              <a
+                href="https://www.facebook.com"
+                target="_blank"
+                rel="noopener"
+                class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
+                style="background: oklch(96% 0.007 247.896); color: oklch(45% 0.042 265.755)"
+                onmouseover="
+                  this.style.background = 'oklch(76% 0.188 70.08)';
+                  this.style.color = 'white';
+                "
+                onmouseout="
+                  this.style.background = 'oklch(96% 0.007 247.896)';
+                  this.style.color = 'oklch(45% 0.042 265.755)';
+                "
+                title="Facebook"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                </svg>
+              </a>
+              <!-- Instagram -->
+              <a
+                href="https://www.instagram.com"
+                target="_blank"
+                rel="noopener"
+                class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
+                style="background: oklch(96% 0.007 247.896); color: oklch(45% 0.042 265.755)"
+                onmouseover="
+                  this.style.background = 'oklch(76% 0.188 70.08)';
+                  this.style.color = 'white';
+                "
+                onmouseout="
+                  this.style.background = 'oklch(96% 0.007 247.896)';
+                  this.style.color = 'oklch(45% 0.042 265.755)';
+                "
+                title="Instagram"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </a>
+              <!-- TikTok -->
+              <a
+                href="https://www.tiktok.com"
+                target="_blank"
+                rel="noopener"
+                class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
+                style="background: oklch(96% 0.007 247.896); color: oklch(45% 0.042 265.755)"
+                onmouseover="
+                  this.style.background = 'oklch(76% 0.188 70.08)';
+                  this.style.color = 'white';
+                "
+                onmouseout="
+                  this.style.background = 'oklch(96% 0.007 247.896)';
+                  this.style.color = 'oklch(45% 0.042 265.755)';
+                "
+                title="TikTok"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"
+                  />
+                </svg>
+              </a>
+              <!-- LinkedIn -->
+              <a
+                href="https://www.linkedin.com"
+                target="_blank"
+                rel="noopener"
+                class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
+                style="background: oklch(96% 0.007 247.896); color: oklch(45% 0.042 265.755)"
+                onmouseover="
+                  this.style.background = 'oklch(76% 0.188 70.08)';
+                  this.style.color = 'white';
+                "
+                onmouseout="
+                  this.style.background = 'oklch(96% 0.007 247.896)';
+                  this.style.color = 'oklch(45% 0.042 265.755)';
+                "
+                title="LinkedIn"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                  <rect x="2" y="9" width="4" height="12" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div style="border-top: 1px solid oklch(92% 0.013 255.508)">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-center">
+          <a
+            href="https://brolydevelopmentstudio.com"
+            target="_blank"
+            rel="noopener"
+            class="brand font-semibold text-xs transition-all duration-200"
+            style="color: oklch(72% 0.02 265.755); text-decoration: none"
+            onmouseover="this.style.color = 'oklch(76% 0.188 70.08)'"
+            onmouseout="this.style.color = 'oklch(72% 0.02 265.755)'"
+          >
+            © <span id="footer-year"></span> · Desarrollado por Broly Development Studio
+          </a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

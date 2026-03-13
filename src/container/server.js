@@ -1,5 +1,6 @@
 import express from 'express';
 import clc from 'cli-color';
+import cloudConnectionMongoDb from './mongo.conntection';
 
 export default class Server {
   constructor({ pkg, config, routes }) {
@@ -10,6 +11,10 @@ export default class Server {
 
   async start() {
     const PORT = this._config.PORT;
+
+    // conection mongodb
+    await cloudConnectionMongoDb();
+
     return this._express.listen(PORT, () => {
       if (process.env.NODE_ENV !== 'production') {
         const route = () => `http://localhost:${PORT}`;

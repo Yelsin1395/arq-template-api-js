@@ -1,9 +1,9 @@
 {
-  "name": "arq-template-api",
+  "name": "caserita-view-render",
   "version": "1.0.0",
-  "description": "Application arq template api.",
+  "description": "Application by caserita for view renders",
   "engines": {
-    "node": "16.x"
+    "node": "22.19.0"
   },
   "main": "index.js",
   "scripts": {
@@ -28,11 +28,13 @@
     "awilix": "^8.0.0",
     "cli-color": "^2.0.3",
     "compression": "^1.7.4",
+    "connection-string": "^5.0.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "express": "^4.18.2",
     "express-async-error": "0.0.2",
     "helmet": "^6.0.1",
+    "mongoose": "^9.2.4",
     "morgan": "^1.10.0"
   },
   "devDependencies": {

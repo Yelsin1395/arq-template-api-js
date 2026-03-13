@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="es" data-theme="mylight">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CASERITA</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.1/dist/full.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+      [data-theme='mylight'] {
+        --color-base-100: oklch(98% 0.003 247.858);
+        --color-base-200: oklch(96% 0.007 247.896);
+        --color-base-300: oklch(92% 0.013 255.508);
+        --color-base-content: oklch(20% 0.042 265.755);
+        --color-primary: oklch(76% 0.188 70.08);
+        --color-primary-content: oklch(98% 0.022 95.277);
+        --color-secondary: oklch(71% 0.143 215.221);
+        --color-secondary-content: oklch(98% 0.019 200.873);
+        --color-neutral: oklch(12% 0.042 264.695);
+        --color-neutral-content: oklch(98% 0.003 247.858);
+        --rounded-box: 2rem;
+        --rounded-btn: 1rem;
+      }
+      body {
+        font-family: 'DM Sans', sans-serif;
+        background: oklch(96% 0.007 247.896);
+      }
+      .brand {
+        font-family: 'Sora', sans-serif;
+      }
+
+      /* Sticky header */
+      .app-header {
+        background: white;
+        border-bottom: 1px solid oklch(92% 0.013 255.508);
+        position: sticky;
+        top: 0;
+        z-index: 40;
+      }
+
+      /* Store tabs */
+      .store-tab {
+        font-family: 'Sora', sans-serif;
+        font-weight: 700;
+        font-size: 0.82rem;
+        padding: 7px 18px;
+        border-radius: 999px;
+        border: 1.5px solid oklch(92% 0.013 255.508);
+        background: white;
+        cursor: pointer;
+        color: oklch(45% 0.042 265.755);
+        white-space: nowrap;
+        transition: all 0.18s;
+      }
+      .store-tab.active {
+        background: oklch(76% 0.188 70.08);
+        border-color: oklch(76% 0.188 70.08);
+        color: white;
+        box-shadow: 0 3px 12px oklch(76% 0.188 70.08 / 0.35);
+      }
+
+      /* Section heading */
+      .sec-title {
+        font-family: 'Sora', sans-serif;
+        font-weight: 800;
+        font-size: 1.4rem;
+        color: oklch(20% 0.042 265.755);
+        letter-spacing: -0.02em;
+      }
+      .sec-bar {
+        height: 3px;
+        width: 44px;
+        border-radius: 2px;
+        background: oklch(76% 0.188 70.08);
+        margin-top: 4px;
+      }
+
+      /* Product card */
+      .prod-card {
+        background: white;
+        border-radius: 1.5rem;
+        overflow: hidden;
+        box-shadow: 0 1px 8px oklch(20% 0.042 265.755 / 0.06);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+      }
+      .prod-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 28px oklch(20% 0.042 265.755 / 0.11);
+      }
+
+      .prod-img {
+        height: 165px;
+        background: oklch(96% 0.007 247.896);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+      .prod-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .prod-img-ph {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        background: oklch(92% 0.013 255.508);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.9rem;
+      }
+      .badge-feat {
+        position: absolute;
+        top: 9px;
+        left: 9px;
+        background: oklch(76% 0.188 70.08);
+        color: white;
+        font-family: 'Sora', sans-serif;
+        font-weight: 700;
+        font-size: 0.67rem;
+        border-radius: 999px;
+        padding: 2px 9px;
+      }
+
+      /* Variation btns */
+      .var-btn {
+        border: 1.5px solid oklch(92% 0.013 255.508);
+        border-radius: 999px;
+        padding: 3px 12px;
+        font-size: 0.73rem;
+        font-weight: 600;
+        font-family: 'Sora', sans-serif;
+        cursor: pointer;
+        transition: all 0.15s;
+        background: white;
+        color: oklch(45% 0.042 265.755);
+      }
+      .var-btn.active,
+      .var-btn:hover {
+        background: oklch(76% 0.188 70.08);
+        border-color: oklch(76% 0.188 70.08);
+        color: white;
+      }
+
+      /* Qty */
+      .qty-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 1.5px solid oklch(76% 0.188 70.08);
+        background: white;
+        color: oklch(76% 0.188 70.08);
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.14s;
+      }
+      .qty-btn:hover {
+        background: oklch(76% 0.188 70.08);
+        color: white;
+      }
+
+      /* Add btn */
+      .add-btn {
+        width: 100%;
+        border-radius: 999px;
+        border: 2px solid oklch(76% 0.188 70.08);
+        background: white;
+        color: oklch(76% 0.188 70.08);
+        font-family: 'Sora', sans-serif;
+        font-weight: 700;
+        font-size: 0.83rem;
+        padding: 8px 0;
+        cursor: pointer;
+        transition: all 0.17s;
+      }
+      .add-btn:hover {
+        background: oklch(76% 0.188 70.08);
+        color: white;
+      }
+
+      /* Prices */
+      .price {
+        font-family: 'Sora', sans-serif;
+        font-weight: 800;
+        color: oklch(76% 0.188 70.08);
+        font-size: 1.1rem;
+      }
+      .price-old {
+        text-decoration: line-through;
+        color: oklch(72% 0.02 265.755);
+        font-size: 0.78rem;
+      }
+
+      /* Float cart */
+      #float-cart {
+        position: fixed;
+        bottom: 1.4rem;
+        right: 1.4rem;
+        background: oklch(76% 0.188 70.08);
+        color: white;
+        border-radius: 999px;
+        padding: 11px 20px;
+        font-family: 'Sora', sans-serif;
+        font-weight: 700;
+        font-size: 0.88rem;
+        cursor: pointer;
+        z-index: 50;
+        box-shadow: 0 5px 22px oklch(76% 0.188 70.08 / 0.45);
+        display: none;
+        align-items: center;
+        gap: 8px;
+        transition: transform 0.17s;
+      }
+      #float-cart:hover {
+        transform: scale(1.04);
+      }
+
+      /* Cart drawer */
+      #cart-overlay {
+        position: fixed;
+        inset: 0;
+        background: oklch(20% 0.042 265.755 / 0.3);
+        z-index: 99;
+        display: none;
+      }
+      #cart-overlay.open {
+        display: block;
+      }
+      #cart-drawer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        border-radius: 1.5rem 1.5rem 0 0;
+        box-shadow: 0 -6px 36px oklch(20% 0.042 265.755 / 0.13);
+        max-height: 72vh;
+        overflow-y: auto;
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 100;
+        padding: 1.4rem 1.4rem 2rem;
+      }
+      #cart-drawer.open {
+        transform: translateY(0);
+      }
+
+      .cart-store-block {
+        background: oklch(97% 0.005 247.858);
+        border-radius: 1rem;
+        padding: 10px 13px;
+        margin-bottom: 9px;
+      }
+      .cart-store-lbl {
+        font-family: 'Sora', sans-serif;
+        font-weight: 700;
+        font-size: 0.75rem;
+        color: oklch(52% 0.042 265.755);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 5px;
+      }
+      .cart-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid oklch(93% 0.01 255.508);
+      }
+      .cart-row:last-child {
+        border-bottom: none;
+      }
+
+      /* Confirm */
+      #confirm-btn {
+        width: 100%;
+        border-radius: 999px;
+        background: oklch(76% 0.188 70.08);
+        color: white;
+        border: none;
+        padding: 12px 0;
+        font-family: 'Sora', sans-serif;
+        font-weight: 800;
+        font-size: 0.95rem;
+        cursor: pointer;
+        margin-top: 1rem;
+        box-shadow: 0 4px 16px oklch(76% 0.188 70.08 / 0.32);
+        transition: opacity 0.17s;
+      }
+      #confirm-btn:hover {
+        opacity: 0.88;
+      }
+
+      /* Order modal */
+      #order-modal {
+        position: fixed;
+        inset: 0;
+        background: oklch(20% 0.042 265.755 / 0.45);
+        z-index: 300;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+      #order-modal.open {
+        display: flex;
+      }
+      #order-box {
+        background: white;
+        border-radius: 2rem;
+        padding: 1.8rem;
+        max-width: 480px;
+        width: 100%;
+        max-height: 84vh;
+        overflow-y: auto;
+      }
+
+      /* Toast */
+      #toast {
+        position: fixed;
+        top: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: oklch(12% 0.042 264.695);
+        color: white;
+        padding: 8px 18px;
+        border-radius: 999px;
+        font-family: 'Sora', sans-serif;
+        font-weight: 600;
+        font-size: 0.82rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.22s;
+        z-index: 500;
+      }
+      #toast.show {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- App Header -->
+    <header class="app-header px-4 py-3">
+      <div class="max-w-5xl mx-auto flex items-center gap-4">
+        <span class="brand font-black text-lg" style="color: oklch(20% 0.042 265.755); flex-shrink: 0"> CASERITA </span>
+        <div class="flex gap-2 overflow-x-auto pb-0.5" id="store-tabs" style="scrollbar-width: none; -webkit-overflow-scrolling: touch"></div>
+      </div>
+    </header>
+
+    <!-- main -->
+    <main class="max-w-5xl mx-auto px-4 py-16 flex items-center justify-center" style="min-height: 60vh">
+      <div class="flex flex-col items-center text-center gap-6" style="max-width: 420px">
+        <!-- Icono decorativo -->
+        <div
+          class="flex items-center justify-center"
+          style="width: 88px; height: 88px; border-radius: 50%; background: oklch(96% 0.007 247.896); border: 2px solid oklch(92% 0.013 255.508)"
+        >
+          <span style="font-size: 2.4rem; line-height: 1">⏳</span>
+        </div>
+
+        <!-- Título -->
+        <div>
+          <h1
+            class="brand font-black"
+            style="font-size: 1.75rem; color: oklch(20% 0.042 265.755); letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 0.5rem"
+          >
+            Este catálogo ya no está disponible
+          </h1>
+          <div class="sec-bar" style="margin: 0 auto 1.1rem"></div>
+          <p style="color: oklch(58% 0.02 265.755); font-size: 0.93rem; line-height: 1.65">
+            El enlace de este catálogo ha expirado porque fue generado hace más de
+            <strong style="color: oklch(45% 0.042 265.755)">{{expireInMin}} minutos</strong>. ¡No te preocupes! Puedes solicitar uno nuevo fácilmente escribiéndonos por el
+            chat.
+          </p>
+        </div>
+
+        <!-- Tarjeta informativa -->
+        <div
+          style="
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.1rem 1.4rem;
+            box-shadow: 0 1px 8px oklch(20% 0.042 265.755 / 0.06);
+            border: 1.5px solid oklch(92% 0.013 255.508);
+            width: 100%;
+          "
+        >
+          <div class="flex items-start gap-3">
+            <span style="font-size: 1.2rem; line-height: 1; margin-top: 2px">💡</span>
+            <p style="color: oklch(52% 0.042 265.755); font-size: 0.82rem; line-height: 1.6; text-align: left">
+              Los catálogos temporales expiran para proteger la información actualizada de precios y disponibilidad. Cada enlace es válido solo durante la
+              sesión en que fue creado.
+            </p>
+          </div>
+        </div>
+
+        <!-- Botón CTA -->
+        <a
+          href="https://wa.me/51999888777"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+            border-radius: 999px;
+            background: oklch(76% 0.188 70.08);
+            color: white;
+            border: none;
+            padding: 13px 24px;
+            font-family: 'Sora', sans-serif;
+            font-weight: 800;
+            font-size: 0.92rem;
+            cursor: pointer;
+            box-shadow: 0 4px 16px oklch(76% 0.188 70.08 / 0.32);
+            text-decoration: none;
+            transition: opacity 0.17s;
+          "
+          onmouseover="this.style.opacity = '0.88'"
+          onmouseout="this.style.opacity = '1'"
+        >
+          <span style="font-size: 1rem">💬</span>
+          Realizar nueva consulta
+        </a>
+
+        <!-- Link secundario -->
+        <p style="color: oklch(68% 0.02 265.755); font-size: 0.78rem">
+          ¿Dudas? Escríbenos a
+          <a href="mailto:hola@caserita.pe" style="color: oklch(76% 0.188 70.08); font-weight: 600; text-decoration: none">hola@caserita.pe</a>
+        </p>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: white; border-top: 1px solid oklch(92% 0.013 255.508); margin-top: 3rem">
+      <!-- Main footer content -->
+      <div class="max-w-5xl mx-auto px-4 py-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+          <!-- LEFT: Contacto -->
+          <div class="flex flex-col gap-5">
+            <div>
+              <p class="brand font-black text-xs uppercase tracking-widest mb-4" style="color: oklch(76% 0.188 70.08); letter-spacing: 0.12em">Contacto</p>
+              <div class="sec-bar mb-5"></div>
+            </div>
+
+            <div class="flex flex-col gap-4">
+              <div class="flex items-start gap-3">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background: oklch(96% 0.007 247.896)">📍</span>
+                <div>
+                  <p class="brand font-bold text-xs uppercase tracking-wide mb-0.5" style="color: oklch(65% 0.02 265.755)">Dirección</p>
+                  <p class="text-sm" style="color: oklch(35% 0.042 265.755)">Av. Ejemplo 1234, Lima, Perú</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background: oklch(96% 0.007 247.896)">📞</span>
+                <div>
+                  <p class="brand font-bold text-xs uppercase tracking-wide mb-0.5" style="color: oklch(65% 0.02 265.755)">Teléfono</p>
+                  <p class="text-sm" style="color: oklch(35% 0.042 265.755)">+51 999 888 777</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background: oklch(96% 0.007 247.896)">✉️</span>
+                <div>
+                  <p class="brand font-bold text-xs uppercase tracking-wide mb-0.5" style="color: oklch(65% 0.02 265.755)">Correo</p>
+                  <p class="text-sm" style="color: oklch(35% 0.042 265.755)">hola@caserita.pe</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Brand + descripción + redes -->
+          <div class="flex flex-col gap-5">
+            <div>
+              <h2 class="brand font-black text-3xl" style="color: oklch(20% 0.042 265.755); letter-spacing: -0.03em">CASERITA</h2>
+              <div class="sec-bar mt-2 mb-4"></div>
+              <p class="text-sm leading-relaxed" style="color: oklch(55% 0.02 265.755); max-width: 320px">
+                Plataforma de pedidos diseñada para brindarte la mejor experiencia. Descubre tiendas, elige tus favoritos y realiza tus pedidos de forma rápida,
+                interactiva e inteligente — con IA integrada en cada paso.
+              </p>
+            </div>
+
+            <!-- Redes sociales -->
+            <div class="flex items-center gap-3 mt-1">
+              <!-- Facebook -->
+              <a
+                href="https://www.facebook.com"
+                target="_blank"
+                rel="noopener"
+                class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
+                style="background: oklch(96% 0.007 247.896); color: oklch(45% 0.042 265.755)"
+                onmouseover="
+                  this.style.background = 'oklch(76% 0.188 70.08)';
+                  this.style.color = 'white';
+                "
+                onmouseout="
+                  this.style.background = 'oklch(96% 0.007 247.896)';
+                  this.style.color = 'oklch(45% 0.042 265.755)';
+                "
+                title="Facebook"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                </svg>
+              </a>
+              <!-- Instagram -->
+              <a
+                href="https://www.instagram.com"
+                target="_blank"
+                rel="noopener"
+                class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
+                style="background: oklch(96% 0.007 247.896); color: oklch(45% 0.042 265.755)"
+                onmouseover="
+                  this.style.background = 'oklch(76% 0.188 70.08)';
+                  this.style.color = 'white';
+                "
+                onmouseout="
+                  this.style.background = 'oklch(96% 0.007 247.896)';
+                  this.style.color = 'oklch(45% 0.042 265.755)';
+                "
+                title="Instagram"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </a>
+              <!-- TikTok -->
+              <a
+                href="https://www.tiktok.com"
+                target="_blank"
+                rel="noopener"
+                class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
+                style="background: oklch(96% 0.007 247.896); color: oklch(45% 0.042 265.755)"
+                onmouseover="
+                  this.style.background = 'oklch(76% 0.188 70.08)';
+                  this.style.color = 'white';
+                "
+                onmouseout="
+                  this.style.background = 'oklch(96% 0.007 247.896)';
+                  this.style.color = 'oklch(45% 0.042 265.755)';
+                "
+                title="TikTok"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"
+                  />
+                </svg>
+              </a>
+              <!-- LinkedIn -->
+              <a
+                href="https://www.linkedin.com"
+                target="_blank"
+                rel="noopener"
+                class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
+                style="background: oklch(96% 0.007 247.896); color: oklch(45% 0.042 265.755)"
+                onmouseover="
+                  this.style.background = 'oklch(76% 0.188 70.08)';
+                  this.style.color = 'white';
+                "
+                onmouseout="
+                  this.style.background = 'oklch(96% 0.007 247.896)';
+                  this.style.color = 'oklch(45% 0.042 265.755)';
+                "
+                title="LinkedIn"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                  <rect x="2" y="9" width="4" height="12" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div style="border-top: 1px solid oklch(92% 0.013 255.508)">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-center">
+          <a
+            href="https://brolydevelopmentstudio.com"
+            target="_blank"
+            rel="noopener"
+            class="brand font-semibold text-xs transition-all duration-200"
+            style="color: oklch(72% 0.02 265.755); text-decoration: none"
+            onmouseover="this.style.color = 'oklch(76% 0.188 70.08)'"
+            onmouseout="this.style.color = 'oklch(72% 0.02 265.755)'"
+          >
+            © <span id="footer-year"></span> · Desarrollado por Broly Development Studio
+          </a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

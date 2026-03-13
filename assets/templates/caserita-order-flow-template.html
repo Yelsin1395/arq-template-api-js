@@ -1,0 +1,1001 @@
+<!doctype html>
+<html lang="es" data-theme="mylight">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CASERITA</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.1/dist/full.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+      [data-theme='mylight'] {
+        --color-base-100: oklch(98% 0.003 247.858);
+        --color-base-200: oklch(96% 0.007 247.896);
+        --color-base-300: oklch(92% 0.013 255.508);
+        --color-base-content: oklch(20% 0.042 265.755);
+        --color-primary: oklch(76% 0.188 70.08);
+        --color-primary-content: oklch(98% 0.022 95.277);
+        --color-secondary: oklch(71% 0.143 215.221);
+        --color-secondary-content: oklch(98% 0.019 200.873);
+        --color-neutral: oklch(12% 0.042 264.695);
+        --color-neutral-content: oklch(98% 0.003 247.858);
+        --rounded-box: 2rem;
+        --rounded-btn: 1rem;
+      }
+      body {
+        font-family: 'DM Sans', sans-serif;
+        background: oklch(96% 0.007 247.896);
+      }
+      .brand {
+        font-family: 'Sora', sans-serif;
+      }
+
+      /* Sticky header */
+      .app-header {
+        background: white;
+        border-bottom: 1px solid oklch(92% 0.013 255.508);
+        position: sticky;
+        top: 0;
+        z-index: 40;
+      }
+
+      /* Store tabs */
+      .store-tab {
+        font-family: 'Sora', sans-serif;
+        font-weight: 700;
+        font-size: 0.82rem;
+        padding: 7px 18px;
+        border-radius: 999px;
+        border: 1.5px solid oklch(92% 0.013 255.508);
+        background: white;
+        cursor: pointer;
+        color: oklch(45% 0.042 265.755);
+        white-space: nowrap;
+        transition: all 0.18s;
+      }
+      .store-tab.active {
+        background: oklch(76% 0.188 70.08);
+        border-color: oklch(76% 0.188 70.08);
+        color: white;
+        box-shadow: 0 3px 12px oklch(76% 0.188 70.08 / 0.35);
+      }
+
+      /* Section heading */
+      .sec-title {
+        font-family: 'Sora', sans-serif;
+        font-weight: 800;
+        font-size: 1.4rem;
+        color: oklch(20% 0.042 265.755);
+        letter-spacing: -0.02em;
+      }
+      .sec-bar {
+        height: 3px;
+        width: 44px;
+        border-radius: 2px;
+        background: oklch(76% 0.188 70.08);
+        margin-top: 4px;
+      }
+
+      /* Product card */
+      .prod-card {
+        background: white;
+        border-radius: 1.5rem;
+        overflow: hidden;
+        box-shadow: 0 1px 8px oklch(20% 0.042 265.755 / 0.06);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+      }
+      .prod-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 28px oklch(20% 0.042 265.755 / 0.11);
+      }
+
+      .prod-img {
+        height: 165px;
+        background: oklch(96% 0.007 247.896);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+      .prod-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .prod-img-ph {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        background: oklch(92% 0.013 255.508);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.9rem;
+      }
+      .badge-feat {
+        position: absolute;
+        top: 9px;
+        left: 9px;
+        background: oklch(76% 0.188 70.08);
+        color: white;
+        font-family: 'Sora', sans-serif;
+        font-weight: 700;
+        font-size: 0.67rem;
+        border-radius: 999px;
+        padding: 2px 9px;
+      }
+
+      /* Variation btns */
+      .var-btn {
+        border: 1.5px solid oklch(92% 0.013 255.508);
+        border-radius: 999px;
+        padding: 3px 12px;
+        font-size: 0.73rem;
+        font-weight: 600;
+        font-family: 'Sora', sans-serif;
+        cursor: pointer;
+        transition: all 0.15s;
+        background: white;
+        color: oklch(45% 0.042 265.755);
+      }
+      .var-btn.active,
+      .var-btn:hover {
+        background: oklch(76% 0.188 70.08);
+        border-color: oklch(76% 0.188 70.08);
+        color: white;
+      }
+
+      /* Qty */
+      .qty-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 1.5px solid oklch(76% 0.188 70.08);
+        background: white;
+        color: oklch(76% 0.188 70.08);
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.14s;
+      }
+      .qty-btn:hover {
+        background: oklch(76% 0.188 70.08);
+        color: white;
+      }
+
+      /* Add btn */
+      .add-btn {
+        width: 100%;
+        border-radius: 999px;
+        border: 2px solid oklch(76% 0.188 70.08);
+        background: white;
+        color: oklch(76% 0.188 70.08);
+        font-family: 'Sora', sans-serif;
+        font-weight: 700;
+        font-size: 0.83rem;
+        padding: 8px 0;
+        cursor: pointer;
+        transition: all 0.17s;
+      }
+      .add-btn:hover {
+        background: oklch(76% 0.188 70.08);
+        color: white;
+      }
+
+      /* Prices */
+      .price {
+        font-family: 'Sora', sans-serif;
+        font-weight: 800;
+        color: oklch(76% 0.188 70.08);
+        font-size: 1.1rem;
+      }
+      .price-old {
+        text-decoration: line-through;
+        color: oklch(72% 0.02 265.755);
+        font-size: 0.78rem;
+      }
+
+      /* Float cart */
+      #float-cart {
+        position: fixed;
+        bottom: 1.4rem;
+        right: 1.4rem;
+        background: oklch(76% 0.188 70.08);
+        color: white;
+        border-radius: 999px;
+        padding: 11px 20px;
+        font-family: 'Sora', sans-serif;
+        font-weight: 700;
+        font-size: 0.88rem;
+        cursor: pointer;
+        z-index: 50;
+        box-shadow: 0 5px 22px oklch(76% 0.188 70.08 / 0.45);
+        display: none;
+        align-items: center;
+        gap: 8px;
+        transition: transform 0.17s;
+      }
+      #float-cart:hover {
+        transform: scale(1.04);
+      }
+
+      /* Cart drawer */
+      #cart-overlay {
+        position: fixed;
+        inset: 0;
+        background: oklch(20% 0.042 265.755 / 0.3);
+        z-index: 99;
+        display: none;
+      }
+      #cart-overlay.open {
+        display: block;
+      }
+      #cart-drawer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        border-radius: 1.5rem 1.5rem 0 0;
+        box-shadow: 0 -6px 36px oklch(20% 0.042 265.755 / 0.13);
+        max-height: 72vh;
+        overflow-y: auto;
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 100;
+        padding: 1.4rem 1.4rem 2rem;
+      }
+      #cart-drawer.open {
+        transform: translateY(0);
+      }
+
+      .cart-store-block {
+        background: oklch(97% 0.005 247.858);
+        border-radius: 1rem;
+        padding: 10px 13px;
+        margin-bottom: 9px;
+      }
+      .cart-store-lbl {
+        font-family: 'Sora', sans-serif;
+        font-weight: 700;
+        font-size: 0.75rem;
+        color: oklch(52% 0.042 265.755);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 5px;
+      }
+      .cart-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid oklch(93% 0.01 255.508);
+      }
+      .cart-row:last-child {
+        border-bottom: none;
+      }
+
+      /* Confirm */
+      #confirm-btn {
+        width: 100%;
+        border-radius: 999px;
+        background: oklch(76% 0.188 70.08);
+        color: white;
+        border: none;
+        padding: 12px 0;
+        font-family: 'Sora', sans-serif;
+        font-weight: 800;
+        font-size: 0.95rem;
+        cursor: pointer;
+        margin-top: 1rem;
+        box-shadow: 0 4px 16px oklch(76% 0.188 70.08 / 0.32);
+        transition: opacity 0.17s;
+      }
+      #confirm-btn:hover {
+        opacity: 0.88;
+      }
+
+      /* Order modal */
+      #order-modal {
+        position: fixed;
+        inset: 0;
+        background: oklch(20% 0.042 265.755 / 0.45);
+        z-index: 300;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+      #order-modal.open {
+        display: flex;
+      }
+      #order-box {
+        background: white;
+        border-radius: 2rem;
+        padding: 1.8rem;
+        max-width: 480px;
+        width: 100%;
+        max-height: 84vh;
+        overflow-y: auto;
+      }
+
+      /* Toast */
+      #toast {
+        position: fixed;
+        top: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: oklch(12% 0.042 264.695);
+        color: white;
+        padding: 8px 18px;
+        border-radius: 999px;
+        font-family: 'Sora', sans-serif;
+        font-weight: 600;
+        font-size: 0.82rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.22s;
+        z-index: 500;
+      }
+      #toast.show {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="toast"></div>
+    <div id="cart-overlay" onclick="closeCart()"></div>
+
+    <!-- App Header -->
+    <header class="app-header px-4 py-3">
+      <div class="max-w-5xl mx-auto flex items-center gap-4">
+        <span class="brand font-black text-lg" style="color: oklch(20% 0.042 265.755); flex-shrink: 0"> CASERITA </span>
+        <div class="flex gap-2 overflow-x-auto pb-0.5" id="store-tabs" style="scrollbar-width: none; -webkit-overflow-scrolling: touch"></div>
+      </div>
+    </header>
+
+    <!-- Catalog area -->
+    <main class="max-w-5xl mx-auto px-4 py-8" id="catalog"></main>
+
+    <!-- Floating cart button -->
+    <button id="float-cart" onclick="openCart()">🛒 <span id="fc-qty">0</span> · <span id="fc-total">S/ 0.00</span></button>
+
+    <!-- Cart drawer -->
+    <div id="cart-drawer">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="brand text-xl font-black" style="color: oklch(20% 0.042 265.755)">Tu carrito</h2>
+        <button onclick="closeCart()" class="text-2xl leading-none" style="color: oklch(75% 0.02 265.755)">×</button>
+      </div>
+      <div id="cart-list"></div>
+      <div class="flex justify-between items-center mt-3 pt-3 border-t" style="border-color: oklch(92% 0.013 255.508)">
+        <span class="font-semibold text-sm" style="color: oklch(55% 0.02 265.755)">Total general</span>
+        <span class="price text-xl" id="cart-total-lbl">S/ 0.00</span>
+      </div>
+      <button id="confirm-btn" onclick="openOrderModal()">Ver resumen del pedido →</button>
+    </div>
+
+    <!-- Order modal -->
+    <div id="order-modal">
+      <div id="order-box">
+        <h2 class="brand text-2xl font-black mb-1" style="color: oklch(20% 0.042 265.755)">Resumen del pedido</h2>
+        <p class="text-sm mb-5" style="color: oklch(62% 0.02 265.755)">Revisa antes de confirmar</p>
+        <div id="order-content"></div>
+        <div class="flex gap-3 mt-5">
+          <button
+            onclick="closeOrderModal()"
+            class="flex-1 border-2 rounded-full py-3 font-bold text-sm brand"
+            style="border-color: oklch(90% 0.013 255.508); color: oklch(52% 0.042 265.755); font-family: 'Sora', sans-serif"
+          >
+            Volver
+          </button>
+          <button
+            onclick="placeOrder()"
+            class="flex-1 rounded-full py-3 font-black text-sm brand"
+            style="background: oklch(76% 0.188 70.08); color: white; font-family: 'Sora', sans-serif"
+          >
+            ¡Confirmar pedido!
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background: white; border-top: 1px solid oklch(92% 0.013 255.508); margin-top: 3rem">
+      <!-- Main footer content -->
+      <div class="max-w-5xl mx-auto px-4 py-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+          <!-- LEFT: Contacto -->
+          <div class="flex flex-col gap-5">
+            <div>
+              <p class="brand font-black text-xs uppercase tracking-widest mb-4" style="color: oklch(76% 0.188 70.08); letter-spacing: 0.12em">Contacto</p>
+              <div class="sec-bar mb-5"></div>
+            </div>
+
+            <div class="flex flex-col gap-4">
+              <div class="flex items-start gap-3">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background: oklch(96% 0.007 247.896)">📍</span>
+                <div>
+                  <p class="brand font-bold text-xs uppercase tracking-wide mb-0.5" style="color: oklch(65% 0.02 265.755)">Dirección</p>
+                  <p class="text-sm" style="color: oklch(35% 0.042 265.755)">Av. Ejemplo 1234, Lima, Perú</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background: oklch(96% 0.007 247.896)">📞</span>
+                <div>
+                  <p class="brand font-bold text-xs uppercase tracking-wide mb-0.5" style="color: oklch(65% 0.02 265.755)">Teléfono</p>
+                  <p class="text-sm" style="color: oklch(35% 0.042 265.755)">+51 999 888 777</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background: oklch(96% 0.007 247.896)">✉️</span>
+                <div>
+                  <p class="brand font-bold text-xs uppercase tracking-wide mb-0.5" style="color: oklch(65% 0.02 265.755)">Correo</p>
+                  <p class="text-sm" style="color: oklch(35% 0.042 265.755)">hola@caserita.pe</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Brand + descripción + redes -->
+          <div class="flex flex-col gap-5">
+            <div>
+              <h2 class="brand font-black text-3xl" style="color: oklch(20% 0.042 265.755); letter-spacing: -0.03em">CASERITA</h2>
+              <div class="sec-bar mt-2 mb-4"></div>
+              <p class="text-sm leading-relaxed" style="color: oklch(55% 0.02 265.755); max-width: 320px">
+                Plataforma de pedidos diseñada para brindarte la mejor experiencia. Descubre tiendas, elige tus favoritos y realiza tus pedidos de forma rápida,
+                interactiva e inteligente — con IA integrada en cada paso.
+              </p>
+            </div>
+
+            <!-- Redes sociales -->
+            <div class="flex items-center gap-3 mt-1">
+              <!-- Facebook -->
+              <a
+                href="https://www.facebook.com"
+                target="_blank"
+                rel="noopener"
+                class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
+                style="background: oklch(96% 0.007 247.896); color: oklch(45% 0.042 265.755)"
+                onmouseover="
+                  this.style.background = 'oklch(76% 0.188 70.08)';
+                  this.style.color = 'white';
+                "
+                onmouseout="
+                  this.style.background = 'oklch(96% 0.007 247.896)';
+                  this.style.color = 'oklch(45% 0.042 265.755)';
+                "
+                title="Facebook"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                </svg>
+              </a>
+              <!-- Instagram -->
+              <a
+                href="https://www.instagram.com"
+                target="_blank"
+                rel="noopener"
+                class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
+                style="background: oklch(96% 0.007 247.896); color: oklch(45% 0.042 265.755)"
+                onmouseover="
+                  this.style.background = 'oklch(76% 0.188 70.08)';
+                  this.style.color = 'white';
+                "
+                onmouseout="
+                  this.style.background = 'oklch(96% 0.007 247.896)';
+                  this.style.color = 'oklch(45% 0.042 265.755)';
+                "
+                title="Instagram"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </a>
+              <!-- TikTok -->
+              <a
+                href="https://www.tiktok.com"
+                target="_blank"
+                rel="noopener"
+                class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
+                style="background: oklch(96% 0.007 247.896); color: oklch(45% 0.042 265.755)"
+                onmouseover="
+                  this.style.background = 'oklch(76% 0.188 70.08)';
+                  this.style.color = 'white';
+                "
+                onmouseout="
+                  this.style.background = 'oklch(96% 0.007 247.896)';
+                  this.style.color = 'oklch(45% 0.042 265.755)';
+                "
+                title="TikTok"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"
+                  />
+                </svg>
+              </a>
+              <!-- LinkedIn -->
+              <a
+                href="https://www.linkedin.com"
+                target="_blank"
+                rel="noopener"
+                class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
+                style="background: oklch(96% 0.007 247.896); color: oklch(45% 0.042 265.755)"
+                onmouseover="
+                  this.style.background = 'oklch(76% 0.188 70.08)';
+                  this.style.color = 'white';
+                "
+                onmouseout="
+                  this.style.background = 'oklch(96% 0.007 247.896)';
+                  this.style.color = 'oklch(45% 0.042 265.755)';
+                "
+                title="LinkedIn"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                  <rect x="2" y="9" width="4" height="12" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div style="border-top: 1px solid oklch(92% 0.013 255.508)">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-center">
+          <a
+            href="https://brolydevelopmentstudio.com"
+            target="_blank"
+            rel="noopener"
+            class="brand font-semibold text-xs transition-all duration-200"
+            style="color: oklch(72% 0.02 265.755); text-decoration: none"
+            onmouseover="this.style.color = 'oklch(76% 0.188 70.08)'"
+            onmouseout="this.style.color = 'oklch(72% 0.02 265.755)'"
+          >
+            © <span id="footer-year"></span> · Desarrollado por Broly Development Studio
+          </a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+      // ══════════════════════════════════════════
+      //  DATA
+      // ══════════════════════════════════════════
+      const storeData = [];
+
+      // ══════════════════════════════════════════
+      //  STATE
+      // ══════════════════════════════════════════
+      const cart = {}; // cartKey -> item
+      const selVar = {}; // productId -> varIndex
+      const selQty = {}; // productId -> qty
+
+      // ══════════════════════════════════════════
+      //  INIT
+      // ══════════════════════════════════════════
+      (function init() {
+        // Pre-fill per-product state
+        for (const store of storeData)
+          for (const c of store.containers)
+            for (const s of c.sections)
+              for (const p of s.products) {
+                selVar[p.productId] = 0;
+                selQty[p.productId] = 1;
+              }
+
+        buildTabs();
+        showStore(0);
+      })();
+
+      // ══════════════════════════════════════════
+      //  TABS
+      // ══════════════════════════════════════════
+      function buildTabs() {
+        document.getElementById('store-tabs').innerHTML = storeData
+          .map(
+            (s, i) => `
+    <button class="store-tab${i === 0 ? ' active' : ''}" id="tab-${i}" onclick="showStore(${i})">
+      ${s.comercialName || s.companyName}
+    </button>
+  `
+          )
+          .join('');
+      }
+
+      function showStore(idx) {
+        document.querySelectorAll('.store-tab').forEach((el, i) => el.classList.toggle('active', i === idx));
+        renderCatalog(storeData[idx]);
+      }
+
+      // ══════════════════════════════════════════
+      //  RENDER CATALOG
+      // ══════════════════════════════════════════
+      function renderCatalog(store) {
+        const cat = document.getElementById('catalog');
+        cat.innerHTML = '';
+
+        // Store banner
+        const storeName = store.comercialName || store.companyName;
+        const banner = document.createElement('div');
+        banner.className = 'flex items-center gap-3 mb-8';
+        banner.innerHTML = store.logoUrl
+          ? `<img src="${store.logoUrl}" class="w-11 h-11 rounded-full object-cover" style="border:2px solid oklch(92% 0.013 255.508)"/>` +
+            `<h2 class="brand font-black text-xl" style="color:oklch(20% 0.042 265.755)">${storeName}</h2>`
+          : `<div class="w-11 h-11 rounded-full flex items-center justify-center font-black text-lg brand"
+          style="background:oklch(92% 0.013 255.508);color:oklch(40% 0.042 265.755)">
+          ${storeName.charAt(0).toUpperCase()}
+       </div>
+       <h2 class="brand font-black text-xl" style="color:oklch(20% 0.042 265.755)">${storeName}</h2>`;
+        cat.appendChild(banner);
+
+        for (const c of store.containers) {
+          for (const sec of c.sections) {
+            const secEl = document.createElement('section');
+            secEl.className = 'mb-12';
+            secEl.innerHTML = `
+        <div class="mb-6">
+          <div class="sec-title">${sec.productSectionName}</div>
+          <div class="sec-bar"></div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="g-${sec.productSectionId}"></div>
+      `;
+            cat.appendChild(secEl);
+            const grid = document.getElementById(`g-${sec.productSectionId}`);
+            for (const prod of sec.products) grid.appendChild(buildCard(prod, store));
+          }
+        }
+      }
+
+      // ══════════════════════════════════════════
+      //  PRODUCT CARD
+      // ══════════════════════════════════════════
+      function buildCard(prod, store) {
+        const el = document.createElement('div');
+        el.className = 'prod-card';
+        el.id = `card-${prod.productId}`;
+        const vars = prod.productVariations || [];
+        el.innerHTML = `
+    <div class="prod-img">
+      ${prod.productImageUrl ? `<img src="${prod.productImageUrl}" alt="${prod.productName}" loading="lazy"/>` : `<div class="prod-img-ph">🍽️</div>`}
+      ${prod.productIsFeatured ? `<span class="badge-feat">⭐ Destacado</span>` : ''}
+    </div>
+    <div class="p-4 flex flex-col gap-3 flex-1">
+      <div>
+        <h3 class="brand font-bold text-sm leading-snug" style="color:oklch(20% 0.042 265.755)">${prod.productName}</h3>
+        ${prod.productDescription ? `<p class="text-xs mt-1" style="color:oklch(62% 0.02 265.755)">${prod.productDescription}</p>` : ''}
+      </div>
+
+      ${
+        vars.length
+          ? `
+      <div>
+        <p class="text-xs font-semibold mb-2 uppercase tracking-wide" style="color:oklch(65% 0.02 265.755)">Variación</p>
+        <div class="flex flex-wrap gap-2">
+          ${vars
+            .map(
+              (v, i) => `
+            <button class="var-btn${i === 0 ? ' active' : ''}"
+              id="vb-${prod.productId}-${i}"
+              onclick="pickVar('${prod.productId}','${store.storeId}',${i})">
+              ${v.label}
+            </button>`
+            )
+            .join('')}
+        </div>
+      </div>`
+          : ''
+      }
+
+      <div class="flex items-end justify-between mt-auto">
+        <div id="price-${prod.productId}">${priceHTML(prod, 0)}</div>
+        <div class="flex items-center gap-2">
+          <button class="qty-btn" onclick="bumpQty('${prod.productId}',-1)">−</button>
+          <span class="font-bold text-sm" id="qd-${prod.productId}"
+            style="min-width:20px;text-align:center">1</span>
+          <button class="qty-btn" onclick="bumpQty('${prod.productId}',1)">+</button>
+        </div>
+      </div>
+      <button class="add-btn" onclick="addCart('${prod.productId}','${store.storeId}')">
+        Agregar al carrito
+      </button>
+    </div>
+  `;
+        return el;
+      }
+
+      function priceHTML(prod, idx) {
+        const vars = prod.productVariations;
+        if (vars && vars.length) {
+          const v = vars[idx];
+          const cmp = v.comparePrice && v.comparePrice > v.basePrice;
+          return (cmp ? `<span class="price-old">S/ ${v.comparePrice.toFixed(2)}</span><br>` : '') + `<span class="price">S/ ${v.basePrice.toFixed(2)}</span>`;
+        }
+        if (prod.productBasePrice != null) {
+          const disc = prod.productComparePrice && prod.productComparePrice < prod.productBasePrice;
+          return (
+            (disc ? `<span class="price-old">S/ ${prod.productBasePrice.toFixed(2)}</span><br>` : '') +
+            `<span class="price">S/ ${(disc ? prod.productComparePrice : prod.productBasePrice).toFixed(2)}</span>`
+          );
+        }
+        return `<span class="text-xs" style="color:oklch(65% 0.02 265.755)">Consultar precio</span>`;
+      }
+
+      // ══════════════════════════════════════════
+      //  INTERACTIONS
+      // ══════════════════════════════════════════
+      function pickVar(productId, storeId, idx) {
+        selVar[productId] = idx;
+        const prod = findProd(productId, storeId);
+        if (!prod) return;
+        prod.productVariations.forEach((_, i) => {
+          document.getElementById(`vb-${productId}-${i}`)?.classList.toggle('active', i === idx);
+        });
+        document.getElementById(`price-${productId}`).innerHTML = priceHTML(prod, idx);
+      }
+
+      function bumpQty(productId, delta) {
+        selQty[productId] = Math.max(1, (selQty[productId] || 1) + delta);
+        const el = document.getElementById(`qd-${productId}`);
+        if (el) el.textContent = selQty[productId];
+      }
+
+      function addCart(productId, storeId) {
+        const store = storeData.find((s) => s.storeId === storeId);
+        const prod = findProd(productId, storeId);
+        if (!prod) return;
+
+        const idx = selVar[productId] || 0;
+        const qty = selQty[productId] || 1;
+        const vars = prod.productVariations;
+
+        let price, varId, varLabel;
+        if (vars && vars.length) {
+          const v = vars[idx];
+          price = v.basePrice;
+          varId = v.id;
+          varLabel = v.label;
+        } else {
+          const disc = prod.productComparePrice && prod.productComparePrice < prod.productBasePrice;
+          price = disc ? prod.productComparePrice : prod.productBasePrice;
+          varId = 'base';
+          varLabel = 'Único';
+        }
+
+        const key = `${storeId}__${productId}__${varId}`;
+        if (cart[key]) cart[key].qty += qty;
+        else
+          cart[key] = {
+            storeId,
+            storeName: store.comercialName || store.companyName,
+            productId,
+            productName: prod.productName,
+            varId,
+            varLabel,
+            price,
+            qty,
+          };
+
+        refreshCartUI();
+        toast(`✓ ${prod.productName} (${varLabel}) agregado`);
+      }
+
+      function findProd(productId, storeId) {
+        const store = storeData.find((s) => s.storeId === storeId);
+        if (!store) return null;
+        for (const c of store.containers) for (const s of c.sections) for (const p of s.products) if (p.productId === productId) return p;
+        return null;
+      }
+
+      // ══════════════════════════════════════════
+      //  CART UI
+      // ══════════════════════════════════════════
+      function refreshCartUI() {
+        const items = Object.entries(cart).map(([k, v]) => ({ key: k, ...v }));
+        const totalQty = items.reduce((s, i) => s + i.qty, 0);
+        const totalPrice = items.reduce((s, i) => s + i.price * i.qty, 0);
+
+        const fb = document.getElementById('float-cart');
+        fb.style.display = totalQty > 0 ? 'flex' : 'none';
+        document.getElementById('fc-qty').textContent = totalQty;
+        document.getElementById('fc-total').textContent = `S/ ${totalPrice.toFixed(2)}`;
+        document.getElementById('cart-total-lbl').textContent = `S/ ${totalPrice.toFixed(2)}`;
+
+        const list = document.getElementById('cart-list');
+        if (!items.length) {
+          list.innerHTML = `<p class="text-center text-sm py-5" style="color:oklch(65% 0.02 265.755)">Tu carrito está vacío</p>`;
+          return;
+        }
+
+        // Group by store
+        const byStore = {};
+        for (const item of items) {
+          if (!byStore[item.storeId]) byStore[item.storeId] = { name: item.storeName, items: [] };
+          byStore[item.storeId].items.push(item);
+        }
+
+        list.innerHTML = Object.values(byStore)
+          .map(
+            (g) => `
+    <div class="cart-store-block">
+      <div class="cart-store-lbl">📍 ${g.name}</div>
+      ${g.items
+        .map(
+          (item) => `
+        <div class="cart-row">
+          <div class="flex-1 min-w-0 mr-3">
+            <p class="font-semibold text-sm truncate" style="color:oklch(20% 0.042 265.755)">${item.productName}</p>
+            <p class="text-xs" style="color:oklch(62% 0.02 265.755)">${item.varLabel} · S/ ${item.price.toFixed(2)} c/u</p>
+          </div>
+          <div class="flex items-center gap-1.5 flex-shrink-0">
+            <button class="qty-btn" style="width:24px;height:24px;font-size:0.82rem"
+              onclick="cartBumpQty('${item.key}',-1)">−</button>
+            <span class="font-bold text-sm" style="min-width:18px;text-align:center">${item.qty}</span>
+            <button class="qty-btn" style="width:24px;height:24px;font-size:0.82rem"
+              onclick="cartBumpQty('${item.key}',1)">+</button>
+            <span class="price text-sm ml-1">S/ ${(item.price * item.qty).toFixed(2)}</span>
+          </div>
+        </div>`
+        )
+        .join('')}
+    </div>`
+          )
+          .join('');
+      }
+
+      function cartBumpQty(key, delta) {
+        if (!cart[key]) return;
+        cart[key].qty = Math.max(0, cart[key].qty + delta);
+        if (cart[key].qty === 0) delete cart[key];
+        refreshCartUI();
+      }
+
+      function openCart() {
+        document.getElementById('cart-drawer').classList.add('open');
+        document.getElementById('cart-overlay').classList.add('open');
+      }
+      function closeCart() {
+        document.getElementById('cart-drawer').classList.remove('open');
+        document.getElementById('cart-overlay').classList.remove('open');
+      }
+
+      // ══════════════════════════════════════════
+      //  ORDER MODAL
+      // ══════════════════════════════════════════
+      function openOrderModal() {
+        const items = Object.entries(cart).map(([k, v]) => ({ key: k, ...v }));
+        if (!items.length) {
+          toast('Tu carrito está vacío');
+          return;
+        }
+        closeCart();
+
+        const totalPrice = items.reduce((s, i) => s + i.price * i.qty, 0);
+        const byStore = {};
+        for (const item of items) {
+          if (!byStore[item.storeId])
+            byStore[item.storeId] = {
+              storeId: item.storeId,
+              name: item.storeName,
+              items: [],
+              subtotal: 0,
+            };
+          byStore[item.storeId].items.push(item);
+          byStore[item.storeId].subtotal += item.price * item.qty;
+        }
+
+        document.getElementById('order-content').innerHTML = `
+    ${Object.values(byStore)
+      .map(
+        (g) => `
+      <div class="rounded-2xl p-4 mb-4" style="background:oklch(96% 0.007 247.896)">
+        <p class="text-xs font-semibold uppercase tracking-wide mb-3 brand"
+          style="color:oklch(52% 0.042 265.755)">📍 ${g.name}</p>
+        ${g.items
+          .map(
+            (item) => `
+          <div class="flex justify-between items-start py-2 border-b" style="border-color:oklch(92% 0.013 255.508)">
+            <div class="flex-1 mr-3">
+              <p class="font-semibold text-sm" style="color:oklch(20% 0.042 265.755)">${item.productName}</p>
+              <p class="text-xs" style="color:oklch(62% 0.02 265.755)">${item.varLabel} × ${item.qty} · S/ ${item.price.toFixed(2)} c/u</p>
+            </div>
+            <span class="price text-sm flex-shrink-0">S/ ${(item.price * item.qty).toFixed(2)}</span>
+          </div>`
+          )
+          .join('')}
+        <div class="flex justify-between items-center pt-2">
+          <span class="text-xs font-semibold" style="color:oklch(55% 0.042 265.755)">Subtotal ${g.name}</span>
+          <span class="price text-sm">S/ ${g.subtotal.toFixed(2)}</span>
+        </div>
+      </div>`
+      )
+      .join('')}
+    <div class="flex justify-between items-center pt-3 mt-1 border-t-2" style="border-color:oklch(88% 0.013 255.508)">
+      <span class="brand font-bold text-base" style="color:oklch(25% 0.042 265.755)">Total general</span>
+      <span class="price text-2xl">S/ ${totalPrice.toFixed(2)}</span>
+    </div>
+  `;
+        document.getElementById('order-modal').classList.add('open');
+      }
+
+      function closeOrderModal() {
+        document.getElementById('order-modal').classList.remove('open');
+      }
+
+      function placeOrder() {
+        const items = Object.entries(cart).map(([k, v]) => ({ key: k, ...v }));
+        const totalPrice = items.reduce((s, i) => s + i.price * i.qty, 0);
+
+        const byStore = {};
+        for (const item of items) {
+          if (!byStore[item.storeId])
+            byStore[item.storeId] = {
+              storeId: item.storeId,
+              storeName: item.storeName,
+              items: [],
+              subtotal: 0,
+            };
+          byStore[item.storeId].items.push({
+            productId: item.productId,
+            productName: item.productName,
+            variationId: item.varId,
+            variationLabel: item.varLabel,
+            unitPrice: item.price,
+            qty: item.qty,
+            subtotal: item.price * item.qty,
+          });
+          byStore[item.storeId].subtotal += item.price * item.qty;
+        }
+
+        const payload = {
+          orderId: `ORD-${Date.now()}`,
+          createdAt: new Date().toISOString(),
+          stores: Object.values(byStore),
+          totalPrice,
+        };
+
+        console.log('📦 PEDIDO CONFIRMADO:', JSON.stringify(payload, null, 2));
+
+        // Clear cart
+        Object.keys(cart).forEach((k) => delete cart[k]);
+        refreshCartUI();
+        closeOrderModal();
+        toast('🎉 ¡Pedido confirmado!');
+      }
+
+      // ══════════════════════════════════════════
+      //  TOAST
+      // ══════════════════════════════════════════
+      function toast(msg) {
+        const el = document.getElementById('toast');
+        el.textContent = msg;
+        el.classList.add('show');
+        setTimeout(() => el.classList.remove('show'), 2200);
+      }
+    </script>
+  </body>
+</html>
