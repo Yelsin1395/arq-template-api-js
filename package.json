@@ -26,6 +26,7 @@
   "homepage": "https://github.com/Yelsin1395/arq-template-api-js#readme",
   "dependencies": {
     "awilix": "^8.0.0",
+    "axios": "^1.13.6",
     "cli-color": "^2.0.3",
     "compression": "^1.7.4",
     "connection-string": "^5.0.0",

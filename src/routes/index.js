@@ -7,7 +7,7 @@ import 'express-async-error';
 import { notFoundMiddleware } from '../middlewares/notFound.middleware';
 import { errorMiddleware } from '../middlewares/exception.middleware';
 
-export default function ({ homeRoutes, catalogViewRoutes, catalogRoutes }) {
+export default function ({ homeRoutes, catalogViewRoutes, catalogRoutes, geocodingRoutes }) {
   const router = express.Router();
   const apiRoutes = express.Router();
   const htmlViewRoutes = express.Router(); // ✅ Router separado SIN helmet
@@ -48,6 +48,7 @@ export default function ({ homeRoutes, catalogViewRoutes, catalogRoutes }) {
   // Rutas API protegidas
   apiRoutes.use('/', homeRoutes);
   apiRoutes.use('/catalog', catalogRoutes);
+  apiRoutes.use('/geocoding', geocodingRoutes);
 
   // Montar ambos en el router principal
   router.use('', htmlViewRoutes); // primero el HTML view
